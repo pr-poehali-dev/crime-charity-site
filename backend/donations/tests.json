@@ -1,0 +1,21 @@
+{
+  "tests": [
+    {
+      "name": "Create donation order",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "nickname": "TestPlayer123",
+        "package_name": "Стартовый",
+        "amount": 100
+      },
+      "expectedStatus": 201
+    },
+    {
+      "name": "Get all orders",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200
+    }
+  ]
+}

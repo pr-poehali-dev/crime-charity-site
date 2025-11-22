@@ -87,7 +87,7 @@ const Index = () => {
     setNickname("");
   };
 
-  const handlePurchase = () => {
+  const handlePurchase = async () => {
     if (!nickname.trim()) {
       toast({
         title: "Ошибка",
@@ -97,21 +97,39 @@ const Index = () => {
       return;
     }
 
-    const phoneNumber = "79800566890";
-    const amount = selectedPackage.amount;
-    const message = `Донат: ${selectedPackage.name} для ${nickname}`;
-    
-    const sbpUrl = `https://qr.nspk.ru/proverkacheka.html?t=${Date.now()}&s=${amount}&m=${phoneNumber}&n=${encodeURIComponent(message)}`;
-    
-    window.open(sbpUrl, '_blank');
+    try {
+      await fetch('https://functions.poehali.dev/c77007eb-51c0-47f5-9554-8a8975edab5f', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nickname: nickname,
+          package_name: selectedPackage.name,
+          amount: selectedPackage.amount
+        })
+      });
 
-    toast({
-      title: "Переход к оплате",
-      description: `Откроется окно для перевода ${amount}₽ через СБП`,
-    });
+      const phoneNumber = "79800566890";
+      const amount = selectedPackage.amount;
+      const message = `Донат: ${selectedPackage.name} для ${nickname}`;
+      
+      const sbpUrl = `https://qr.nspk.ru/proverkacheka.html?t=${Date.now()}&s=${amount}&m=${phoneNumber}&n=${encodeURIComponent(message)}`;
+      
+      window.open(sbpUrl, '_blank');
 
-    setSelectedPackage(null);
-    setNickname("");
+      toast({
+        title: "Переход к оплате",
+        description: `Откроется окно для перевода ${amount}₽ через СБП`,
+      });
+
+      setSelectedPackage(null);
+      setNickname("");
+    } catch (error) {
+      toast({
+        title: "Ошибка",
+        description: "Не удалось создать заказ",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
