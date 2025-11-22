@@ -18,6 +18,7 @@ const Index = () => {
       id: 1,
       name: "Стартовый",
       price: "100₽",
+      amount: 100,
       icon: "Coins",
       features: [
         "100.000.000₽ игровых",
@@ -30,6 +31,7 @@ const Index = () => {
       id: 2,
       name: "Продвинутый",
       price: "200₽",
+      amount: 200,
       icon: "Wallet",
       features: [
         "300.000.000₽ игровых",
@@ -42,6 +44,7 @@ const Index = () => {
       id: 3,
       name: "Премиум",
       price: "400₽",
+      amount: 400,
       icon: "Gem",
       features: [
         "500.000.000₽ игровых",
@@ -54,6 +57,7 @@ const Index = () => {
       id: 4,
       name: "Элитный",
       price: "500₽",
+      amount: 500,
       icon: "Crown",
       features: [
         "900.000.000₽ игровых",
@@ -66,6 +70,7 @@ const Index = () => {
       id: 5,
       name: "Админ Набор",
       price: "100₽",
+      amount: 100,
       icon: "ShieldCheck",
       features: [
         "Админские команды",
@@ -92,9 +97,17 @@ const Index = () => {
       return;
     }
 
+    const phoneNumber = "79800566890";
+    const amount = selectedPackage.amount;
+    const message = `Донат: ${selectedPackage.name} для ${nickname}`;
+    
+    const sbpUrl = `https://qr.nspk.ru/proverkacheka.html?t=${Date.now()}&s=${amount}&m=${phoneNumber}&n=${encodeURIComponent(message)}`;
+    
+    window.open(sbpUrl, '_blank');
+
     toast({
       title: "Переход к оплате",
-      description: `Покупка "${selectedPackage.name}" для игрока ${nickname}`,
+      description: `Откроется окно для перевода ${amount}₽ через СБП`,
     });
 
     setSelectedPackage(null);
