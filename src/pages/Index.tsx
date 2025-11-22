@@ -7,51 +7,64 @@ const Index = () => {
   const donationPackages = [
     {
       id: 1,
-      name: "Новичок",
-      price: "199₽",
-      icon: "User",
+      name: "Стартовый",
+      price: "100₽",
+      icon: "Coins",
       features: [
-        "Стартовый набор оружия",
-        "100.000₽ игровых",
-        "VIP статус на 7 дней",
-        "Приватный гараж",
+        "100.000.000₽ игровых",
+        "Мгновенная выдача",
       ],
       popular: false,
       color: "from-zinc-700 to-zinc-800"
     },
     {
       id: 2,
-      name: "Авторитет",
-      price: "499₽",
-      icon: "Crown",
+      name: "Продвинутый",
+      price: "200₽",
+      icon: "Wallet",
       features: [
-        "Премиум оружие",
-        "500.000₽ игровых",
-        "VIP статус на 30 дней",
-        "Элитный автомобиль",
-        "Приватная квартира",
-        "Уникальный скин",
+        "300.000.000₽ игровых",
+        "Мгновенная выдача",
       ],
-      popular: true,
-      color: "from-red-600 to-red-800"
+      popular: false,
+      color: "from-blue-600 to-blue-800"
     },
     {
       id: 3,
-      name: "Босс",
-      price: "999₽",
-      icon: "Skull",
+      name: "Премиум",
+      price: "400₽",
+      icon: "Gem",
       features: [
-        "Легендарное оружие",
-        "2.000.000₽ игровых",
-        "VIP статус навсегда",
-        "Суперкар",
-        "Пентхаус",
-        "Эксклюзивные скины",
-        "Приоритет в очереди",
-        "Личный телохранитель",
+        "500.000.000₽ игровых",
+        "Мгновенная выдача",
+      ],
+      popular: true,
+      color: "from-purple-600 to-purple-800"
+    },
+    {
+      id: 4,
+      name: "Элитный",
+      price: "500₽",
+      icon: "Crown",
+      features: [
+        "900.000.000₽ игровых",
+        "Мгновенная выдача",
       ],
       popular: false,
       color: "from-orange-600 to-orange-800"
+    },
+    {
+      id: 5,
+      name: "Админ Набор",
+      price: "100₽",
+      icon: "ShieldCheck",
+      features: [
+        "Админские команды",
+        "Инструменты модерации",
+        "Эксклюзивный доступ",
+      ],
+      popular: false,
+      color: "from-red-600 to-red-800"
     },
   ];
 
@@ -91,7 +104,7 @@ const Index = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {donationPackages.map((pkg, index) => (
             <Card 
               key={pkg.id} 
