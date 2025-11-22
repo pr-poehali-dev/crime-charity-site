@@ -1,9 +1,18 @@
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import Icon from "@/components/ui/icon";
+import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
+  const [selectedPackage, setSelectedPackage] = useState<any>(null);
+  const [nickname, setNickname] = useState("");
+  const { toast } = useToast();
+
   const donationPackages = [
     {
       id: 1,
@@ -67,6 +76,30 @@ const Index = () => {
       color: "from-red-600 to-red-800"
     },
   ];
+
+  const handleBuyClick = (pkg: any) => {
+    setSelectedPackage(pkg);
+    setNickname("");
+  };
+
+  const handlePurchase = () => {
+    if (!nickname.trim()) {
+      toast({
+        title: "Ошибка",
+        description: "Введите ваш игровой никнейм",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Переход к оплате",
+      description: `Покупка "${selectedPackage.name}" для игрока ${nickname}`,
+    });
+
+    setSelectedPackage(null);
+    setNickname("");
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -148,6 +181,7 @@ const Index = () => {
                 ))}
                 
                 <Button 
+                  onClick={() => handleBuyClick(pkg)}
                   className={`w-full mt-6 font-bold text-lg h-12 bg-gradient-to-r ${pkg.color} hover:opacity-90 transition-all`}
                 >
                   Купить
@@ -164,6 +198,65 @@ const Index = () => {
           </p>
         </div>
       </div>
+
+      <Dialog open={!!selectedPackage} onOpenChange={() => setSelectedPackage(null)}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle className="text-2xl flex items-center gap-2">
+              <Icon name={selectedPackage?.icon || "Package"} size={24} className="text-primary" />
+              {selectedPackage?.name}
+            </DialogTitle>
+            <DialogDescription>
+              Введите ваш игровой никнейм для получения доната
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="nickname" className="text-base">
+                Игровой никнейм
+              </Label>
+              <Input
+                id="nickname"
+                placeholder="Введите ваш ник в игре"
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+                className="h-12 text-base"
+              />
+              <p className="text-sm text-muted-foreground">
+                Убедитесь, что никнейм указан правильно
+              </p>
+            </div>
+
+            <div className="bg-muted p-4 rounded-lg space-y-2">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Пакет:</span>
+                <span className="font-semibold">{selectedPackage?.name}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Цена:</span>
+                <span className="font-bold text-primary text-lg">{selectedPackage?.price}</span>
+              </div>
+            </div>
+          </div>
+
+          <DialogFooter className="gap-2">
+            <Button 
+              variant="outline" 
+              onClick={() => setSelectedPackage(null)}
+              className="flex-1"
+            >
+              Отмена
+            </Button>
+            <Button 
+              onClick={handlePurchase}
+              className="flex-1 bg-gradient-to-r from-primary to-primary/80 font-bold"
+            >
+              Перейти к оплате
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
